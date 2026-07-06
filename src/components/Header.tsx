@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
@@ -10,7 +10,7 @@ import {
   LogOut, Shield, Menu, X, Sparkles, Search, CheckCircle,
 } from "lucide-react";
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 
 interface Notification {
   id: string;
@@ -133,7 +133,7 @@ export default function Header() {
         { icon: MessageCircle, label: "Messages", href: "/messages" },
       ];
 
-  // Notification portal — renders directly into document.body,
+  // Notification portal â€” renders directly into document.body,
   // bypassing any stacking context from parent elements.
   const notifPortal = mounted && notifOpen && user
     ? createPortal(
@@ -266,7 +266,7 @@ export default function Header() {
             <div className="hidden md:flex items-center gap-2">
               {user ? (
                 <>
-                  {/* Bell button — stopPropagation prevents outside-click race */}
+                  {/* Bell button â€” stopPropagation prevents outside-click race */}
                   <button
                     type="button"
                     onClick={(e) => {
@@ -409,3 +409,4 @@ export default function Header() {
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -10,7 +10,7 @@ import {
   Shield, RotateCcw, GraduationCap, Briefcase, MapPin,
 } from "lucide-react";
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 
 interface SearchProfile {
   user_id: string;
@@ -166,7 +166,7 @@ function SearchContent() {
         )}
 
         <div>
-          <FilterLabel>Age Range ({minAge} – {maxAge} yrs)</FilterLabel>
+          <FilterLabel>Age Range ({minAge} â€“ {maxAge} yrs)</FilterLabel>
           <div className="space-y-2 mt-2">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-stone-400 w-4">Min</span>
@@ -235,7 +235,7 @@ function SearchContent() {
         <div className="bg-rose-50/80 backdrop-blur-sm border-b border-rose-100 py-2 px-4 mt-16">
           <div className="max-w-7xl mx-auto text-center text-xs font-bold text-rose-600">
             {appliedGenderFilter === "Female" ? "Showing Brides (Female profiles)" : "Showing Grooms (Male profiles)"}
-            <span className="font-normal text-rose-500/70 ml-2">— Opposite gender only, as per matrimonial standards.</span>
+            <span className="font-normal text-rose-500/70 ml-2">â€” Opposite gender only, as per matrimonial standards.</span>
           </div>
         </div>
       )}
@@ -328,7 +328,7 @@ function SearchContent() {
                               {profile.user?.is_verified && (
                                 <Shield size={11} className="text-emerald-500" />
                               )}
-                              <span className="text-[10px] text-stone-500">{profile.age} yrs · {profile.marital_status || "Single"}</span>
+                              <span className="text-[10px] text-stone-500">{profile.age} yrs Â· {profile.marital_status || "Single"}</span>
                             </div>
                           </div>
                         </div>
@@ -337,9 +337,9 @@ function SearchContent() {
                       {/* Card body */}
                       <div className="p-4 flex-1 space-y-2">
                         {[
-                          { icon: MapPin, label: profile.city || "—" },
-                          { icon: GraduationCap, label: profile.education || "—" },
-                          { icon: Briefcase, label: profile.profession || "—" },
+                          { icon: MapPin, label: profile.city || "â€”" },
+                          { icon: GraduationCap, label: profile.education || "â€”" },
+                          { icon: Briefcase, label: profile.profession || "â€”" },
                         ].map(({ icon: Icon, label }) => (
                           <div key={label} className="flex items-center gap-2">
                             <Icon size={12} className="text-rose-400 flex-shrink-0" />
@@ -398,3 +398,4 @@ export default function SearchPage() {
     </Suspense>
   );
 }
+

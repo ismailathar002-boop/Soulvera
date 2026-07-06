@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ interface Proposal {
   sender?: ProposalUser; receiver?: ProposalUser;
 }
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 
 function Avatar({ profileUser }: { profileUser?: ProposalUser }) {
   if (profileUser?.profile?.photo_url) {
@@ -148,7 +148,7 @@ export default function Proposals() {
                 <span className="text-rose-600">{personUser?.name || "Unknown"}</span>
               </div>
               <div className="text-xs text-stone-400 mt-0.5">
-                {personUser?.soulvera_id} · {personUser?.profile?.age} yrs · {personUser?.profile?.city} · {personUser?.profile?.caste}
+                {personUser?.soulvera_id} Â· {personUser?.profile?.age} yrs Â· {personUser?.profile?.city} Â· {personUser?.profile?.caste}
               </div>
               {prop.message && (
                 <div className="text-[11px] text-stone-400 italic mt-1.5 max-w-xs">
@@ -233,7 +233,7 @@ export default function Proposals() {
                 className="w-full border-2 border-dashed border-amber-300 hover:border-amber-500 rounded-2xl py-8 flex flex-col items-center gap-2 transition-all bg-white">
                 <Upload size={24} className="text-amber-400" />
                 <span className="text-xs font-bold text-amber-600">Click to Upload Screenshot</span>
-                <span className="text-[10px] text-stone-400">JPG, PNG, WEBP · Max 5MB</span>
+                <span className="text-[10px] text-stone-400">JPG, PNG, WEBP Â· Max 5MB</span>
               </button>
             ) : (
               <div className="relative rounded-2xl overflow-hidden border-2 border-emerald-300 mb-3">
@@ -361,3 +361,4 @@ export default function Proposals() {
     </div>
   );
 }
+

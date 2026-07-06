@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 
@@ -99,7 +99,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "/api";
 
 // Helper helper: Normalize backend response structure to frontend types
 const mapBackendUserToFrontend = (
@@ -531,3 +531,4 @@ export const useAuth = () => {
   }
   return context;
 };
+

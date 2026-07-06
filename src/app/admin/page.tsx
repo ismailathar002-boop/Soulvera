@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ import {
 export default function AdminPanel() {
   const router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const API = "http://localhost:5000/api";
+  const API = "/api";
 
   const [activeSubTab, setActiveSubTab] = useState<"approvals" | "stats" | "chat" | "proposals">("approvals");
 
@@ -235,7 +235,7 @@ export default function AdminPanel() {
               <div className="space-y-5">
                 <div>
                   <h3 className="heading-section text-lg text-stone-900 mb-1">Profile Verification Panel</h3>
-                  <p className="text-xs text-stone-400">Tamam registered users — profile dekhein aur verify karein.</p>
+                  <p className="text-xs text-stone-400">Tamam registered users â€” profile dekhein aur verify karein.</p>
                 </div>
 
                 {verifyMsg && (
@@ -267,7 +267,7 @@ export default function AdminPanel() {
                         {adminUsers.map((u: any) => (
                           <tr key={u.id} className="hover:bg-rose-50/40 transition-colors group">
 
-                            {/* User — click to view profile */}
+                            {/* User â€” click to view profile */}
                             <td className="py-3.5 pr-4">
                               <Link href={`/profile/${u.id}`} className="flex items-center gap-2.5 group/link">
                                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center overflow-hidden flex-shrink-0 border-2 border-white shadow-sm group-hover/link:border-rose-200 transition-all">
@@ -282,7 +282,7 @@ export default function AdminPanel() {
                               </Link>
                             </td>
 
-                            <td className="py-3.5 pr-4 text-stone-400 font-mono text-[10px]">{u.soulvera_id || "—"}</td>
+                            <td className="py-3.5 pr-4 text-stone-400 font-mono text-[10px]">{u.soulvera_id || "â€”"}</td>
                             <td className="py-3.5 pr-4 text-stone-500 capitalize">{u.role}</td>
 
                             <td className="py-3.5 pr-4">
@@ -367,7 +367,7 @@ export default function AdminPanel() {
               <div className="space-y-5">
                 <div>
                   <h3 className="heading-section text-lg text-stone-900 mb-1">Proposals Monitor</h3>
-                  <p className="text-xs text-stone-400">Tamam proposals — kisne kisko bheja.</p>
+                  <p className="text-xs text-stone-400">Tamam proposals â€” kisne kisko bheja.</p>
                 </div>
 
                 {proposalMsg && (
@@ -396,7 +396,7 @@ export default function AdminPanel() {
                       <thead>
                         <tr className="border-b border-stone-100 text-stone-400 font-bold uppercase tracking-wider text-[10px]">
                           <th className="pb-3 pr-4">Sender</th>
-                          <th className="pb-3 pr-4 text-center">→</th>
+                          <th className="pb-3 pr-4 text-center">â†’</th>
                           <th className="pb-3 pr-4">Receiver</th>
                           <th className="pb-3 pr-4 text-center">Status</th>
                           <th className="pb-3 text-right">Date</th>
@@ -421,8 +421,8 @@ export default function AdminPanel() {
                                       : <UserCircle size={14} className="text-rose-300" />}
                                   </div>
                                   <div>
-                                    <p className="font-bold text-stone-800 group-hover/s:text-rose-600 transition-colors">{p.sender?.name || "—"}</p>
-                                    <p className="text-[10px] text-stone-400">{p.sender?.profile?.city || "—"}</p>
+                                    <p className="font-bold text-stone-800 group-hover/s:text-rose-600 transition-colors">{p.sender?.name || "â€”"}</p>
+                                    <p className="text-[10px] text-stone-400">{p.sender?.profile?.city || "â€”"}</p>
                                   </div>
                                 </Link>
                               </td>
@@ -440,8 +440,8 @@ export default function AdminPanel() {
                                       : <UserCircle size={14} className="text-sky-300" />}
                                   </div>
                                   <div>
-                                    <p className="font-bold text-stone-800 group-hover/r:text-sky-600 transition-colors">{p.receiver?.name || "—"}</p>
-                                    <p className="text-[10px] text-stone-400">{p.receiver?.profile?.city || "—"}</p>
+                                    <p className="font-bold text-stone-800 group-hover/r:text-sky-600 transition-colors">{p.receiver?.name || "â€”"}</p>
+                                    <p className="text-[10px] text-stone-400">{p.receiver?.profile?.city || "â€”"}</p>
                                   </div>
                                 </Link>
                               </td>
@@ -532,7 +532,7 @@ export default function AdminPanel() {
                           </button>
                         </div>
 
-                        {/* Screenshot — show image directly */}
+                        {/* Screenshot â€” show image directly */}
                         {payment.payment_screenshot ? (
                           <div className="mt-4">
                             <p className="text-[10px] font-bold uppercase tracking-wider text-stone-400 mb-2">Payment Screenshot</p>
@@ -558,7 +558,7 @@ export default function AdminPanel() {
                                 rel="noopener noreferrer"
                                 className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-rose-600 text-[10px] font-bold px-2.5 py-1 rounded-xl border border-rose-200 shadow-sm hover:bg-rose-50 transition-colors"
                               >
-                                Full Size ↗
+                                Full Size â†—
                               </a>
                             </div>
                           </div>
@@ -580,3 +580,4 @@ export default function AdminPanel() {
     </div>
   );
 }
+

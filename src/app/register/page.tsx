@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
@@ -22,7 +22,7 @@ function RegisterContent() {
     if (searchParams.get("tab") === "login") setActiveTab("login");
   }, [searchParams]);
 
-  // ─── Register fields ───────────────────────────────────────
+  // â”€â”€â”€ Register fields â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [role, setRole] = useState<UserRole>("individual");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -34,18 +34,18 @@ function RegisterContent() {
   const [profilePhotoName, setProfilePhotoName] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ─── Login fields ──────────────────────────────────────────
+  // â”€â”€â”€ Login fields â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
-  // ─── Forgot password ──────────────────────────────────────
+  // â”€â”€â”€ Forgot password â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
   const [forgotLoading, setForgotLoading] = useState(false);
   const [forgotMsg, setForgotMsg] = useState<{ text: string; ok: boolean } | null>(null);
 
-  // ─── Shared ────────────────────────────────────────────────
+  // â”€â”€â”€ Shared â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -53,7 +53,7 @@ function RegisterContent() {
   const isValidEmail = (val: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val.trim());
 
-  // ─── Photo ─────────────────────────────────────────────────
+  // â”€â”€â”€ Photo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -72,7 +72,7 @@ function RegisterContent() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // ─── Register submit ───────────────────────────────────────
+  // â”€â”€â”€ Register submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !phone || !password) { setError("Please fill in all required fields."); return; }
@@ -86,7 +86,7 @@ function RegisterContent() {
     } finally { setLoading(false); }
   };
 
-  // ─── Login submit ──────────────────────────────────────────
+  // â”€â”€â”€ Login submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!loginEmail || !loginPassword) { setError("Please enter your email and password."); return; }
@@ -104,13 +104,13 @@ function RegisterContent() {
     } finally { setLoading(false); }
   };
 
-  // ─── Forgot password submit ────────────────────────────────
+  // â”€â”€â”€ Forgot password submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!forgotEmail) return;
     setForgotLoading(true); setForgotMsg(null);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/forgot-password", {
+      const res = await fetch("/api/auth/forgot-password", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail }),
       });
@@ -152,7 +152,7 @@ function RegisterContent() {
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-xl">
-        {/* ── Tabs ──────────────────────────────────────────── */}
+        {/* â”€â”€ Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="flex bg-white/70 backdrop-blur-sm rounded-2xl p-1.5 mb-5 border border-white/80 shadow-sm">
           {(["register", "login"] as AuthTab[]).map((tab) => (
             <button
@@ -171,7 +171,7 @@ function RegisterContent() {
           ))}
         </div>
 
-        {/* ── Card ──────────────────────────────────────────── */}
+        {/* â”€â”€ Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="glass border border-white/60 py-8 px-5 sm:px-8 rounded-3xl shadow-[0_24px_80px_rgba(225,29,72,0.12)]">
 
           {/* Error banner */}
@@ -182,9 +182,9 @@ function RegisterContent() {
             </div>
           )}
 
-          {/* ═══════════════════════════════════════════════
+          {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
               REGISTER TAB
-              ═══════════════════════════════════════════════ */}
+              â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeTab === "register" && (
             <form onSubmit={handleRegister} className="space-y-5">
               <div className="text-center mb-1">
@@ -239,7 +239,7 @@ function RegisterContent() {
                         <Camera size={20} className="text-rose-500" />
                       </div>
                       <p className="text-sm font-bold text-rose-600">Click to upload photo</p>
-                      <p className="text-xs text-stone-400">JPG, PNG, WEBP · Max 5MB</p>
+                      <p className="text-xs text-stone-400">JPG, PNG, WEBP Â· Max 5MB</p>
                     </button>
                   ) : (
                     <div className="flex items-center gap-4 p-4 bg-white/80 border border-rose-100 rounded-2xl">
@@ -314,7 +314,7 @@ function RegisterContent() {
                   <Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300" />
                   <input id="reg-password" type={showPassword ? "text" : "password"} required
                     value={password} onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••" className={`${InputBase} pr-11`} />
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" className={`${InputBase} pr-11`} />
                   <button type="button" onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-300 hover:text-rose-400 transition-colors">
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -331,8 +331,8 @@ function RegisterContent() {
                   <textarea
                     id="reg-aboutMe" rows={3} value={aboutMe} onChange={(e) => setAboutMe(e.target.value)}
                     placeholder={role === "family"
-                      ? "Describe your family member — background, values, and what you're looking for..."
-                      : "Describe yourself — personality, hobbies, values, and what you're looking for in a life partner..."}
+                      ? "Describe your family member â€” background, values, and what you're looking for..."
+                      : "Describe yourself â€” personality, hobbies, values, and what you're looking for in a life partner..."}
                     className="w-full bg-white/80 border border-stone-200 rounded-2xl px-4 py-3 text-sm font-medium focus:ring-2 focus:ring-rose-400/50 focus:border-rose-400 focus:outline-none transition-all placeholder:text-stone-300 resize-none leading-relaxed"
                   />
                   <p className="text-[10px] text-stone-400 mt-1.5">{aboutMe.length}/500 characters</p>
@@ -356,9 +356,9 @@ function RegisterContent() {
             </form>
           )}
 
-          {/* ═══════════════════════════════════════════════
+          {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
               LOGIN TAB
-              ═══════════════════════════════════════════════ */}
+              â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
           {activeTab === "login" && (
             <>
               {showForgot ? (
@@ -433,7 +433,7 @@ function RegisterContent() {
                       <Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-300" />
                       <input id="login-password" type={showLoginPassword ? "text" : "password"} required
                         value={loginPassword} onChange={(e) => setLoginPassword(e.target.value)}
-                        placeholder="••••••••" className={`${InputBase} pr-11`} />
+                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" className={`${InputBase} pr-11`} />
                       <button type="button" onClick={() => setShowLoginPassword(!showLoginPassword)}
                         className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-300 hover:text-rose-400 transition-colors">
                         {showLoginPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -482,3 +482,4 @@ export default function Register() {
     </Suspense>
   );
 }
+

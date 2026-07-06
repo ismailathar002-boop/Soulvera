@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,7 +13,7 @@ import {
 interface ChatMessage { id: string; senderId: string; text: string; timestamp: string; }
 interface BackendProposal { id: string; sender_id: string; receiver_id: string; status: string; chat_enabled: boolean; payment_status: string; }
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 
 function MessagesContent() {
   const router = useRouter();
@@ -222,7 +222,7 @@ function MessagesContent() {
                     </div>
                     <div>
                       <div className="font-bold text-sm text-stone-800">{activeChatPartner.name}</div>
-                      <div className="text-[10px] text-stone-400">{activeChatPartner.soulvera_id} · {activeChatPartner.profile?.city || ""}</div>
+                      <div className="text-[10px] text-stone-400">{activeChatPartner.soulvera_id} Â· {activeChatPartner.profile?.city || ""}</div>
                     </div>
                   </div>
                   {chatEnabled && (
@@ -252,7 +252,7 @@ function MessagesContent() {
                               className="w-full border-2 border-dashed border-rose-300 hover:border-rose-500 rounded-2xl py-8 flex flex-col items-center gap-2 transition-all bg-white hover:bg-rose-50/50">
                               <Upload size={24} className="text-rose-400" />
                               <span className="text-xs font-bold text-rose-600">Upload Payment Screenshot</span>
-                              <span className="text-[10px] text-stone-400">JPG, PNG, WEBP · Max 5MB</span>
+                              <span className="text-[10px] text-stone-400">JPG, PNG, WEBP Â· Max 5MB</span>
                             </button>
                           ) : (
                             <div className="relative rounded-2xl overflow-hidden border-2 border-emerald-300">
@@ -301,7 +301,7 @@ function MessagesContent() {
                     <div className="flex-1 p-5 overflow-y-auto max-h-[400px] space-y-3 bg-gradient-to-b from-rose-50/20 to-white/10">
                       {activeMessages.length === 0 && (
                         <div className="text-center py-10 text-xs text-stone-400">
-                          No messages yet. Say Assalam-o-Alaikum! 🌹
+                          No messages yet. Say Assalam-o-Alaikum! ðŸŒ¹
                         </div>
                       )}
                       {activeMessages.map((msg) => {
@@ -379,3 +379,4 @@ export default function Messages() {
     </Suspense>
   );
 }
+

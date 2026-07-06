@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
@@ -31,7 +31,7 @@ function ResetPasswordForm() {
     if (password !== confirmPassword) { setError("Passwords do not match."); return; }
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/reset-password", {
+      const res = await fetch("/api/auth/reset-password", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, uid, password }),
       });
@@ -167,3 +167,4 @@ export default function ResetPasswordPage() {
     </Suspense>
   );
 }
+
