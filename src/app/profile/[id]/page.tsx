@@ -15,7 +15,7 @@ interface ProfileDetailProps {
   params: Promise<{ id: string }>;
 }
 
-const API = "http://localhost:5000/api";
+const API = "/api";
 
 interface BackendProfile {
   id: string; soulvera_id: string; name: string; email: string;

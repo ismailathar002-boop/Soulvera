@@ -8,7 +8,7 @@ import Header from "../../components/Header";
 import {
   Heart, Send, Inbox, MessageCircle, Search,
   CheckCircle, X, Clock, CreditCard, Upload,
-  UserCircle, ChevronRight, AlertCircle,
+  UserCircle, ChevronRight, AlertCircle, Wallet, RefreshCw,
 } from "lucide-react";
 
 interface ProposalUser {
@@ -22,6 +22,7 @@ interface Proposal {
   admin_status?: "pending" | "approved" | "rejected";
   message?: string; created_at: string;
   chat_enabled?: boolean; payment_status?: string;
+  payment_approved?: boolean; credit_active?: boolean;
   sender?: ProposalUser; receiver?: ProposalUser;
 }
 
@@ -45,6 +46,7 @@ export default function Proposals() {
   const [activeTab, setActiveTab] = useState<"received" | "sent">("received");
   const [received, setReceived] = useState<Proposal[]>([]);
   const [sent, setSent] = useState<Proposal[]>([]);
+  const [hasActiveCredit, setHasActiveCredit] = useState(false);
   const [loadingProposals, setLoadingProposals] = useState(false);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState("");
@@ -67,7 +69,11 @@ export default function Proposals() {
     try {
       const res = await fetch(`${API}/proposals`, { headers: { Authorization: `Bearer ${token}` } });
       const data = await res.json();
-      if (data.success) { setReceived(data.received || []); setSent(data.sent || []); }
+      if (data.success) {
+        setReceived(data.received || []);
+        setSent(data.sent || []);
+        setHasActiveCredit(data.hasActiveCredit || false);
+      }
     } catch (err) { console.error("Failed to fetch proposals:", err); }
     finally { setLoadingProposals(false); }
   }, []);
@@ -213,9 +219,23 @@ export default function Proposals() {
             )}
 
             {prop.status === "rejected" && (
-              <span className="flex items-center gap-1 bg-stone-50 text-stone-500 border border-stone-200 px-3 py-1 rounded-xl font-bold text-[10px] uppercase tracking-wider">
-                <X size={11} /> Declined
-              </span>
+              <div className="flex flex-col items-end gap-2">
+                <span className="flex items-center gap-1 bg-stone-50 text-stone-500 border border-stone-200 px-3 py-1 rounded-xl font-bold text-[10px] uppercase tracking-wider">
+                  <X size={11} /> Declined
+                </span>
+                {prop.payment_approved && prop.payment_status === "paid" && (
+                  <>
+                    <span className="flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-xl font-bold text-[10px] uppercase tracking-wider">
+                      <Wallet size={11} /> Credit Active
+                    </span>
+                    <Link
+                      href="/search?useCredit=true"
+                      className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm hover:from-emerald-600 hover:to-teal-600 transition-all">
+                      <RefreshCw size={11} /> Kisi Aur Ko Bhejein
+                    </Link>
+                  </>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -282,6 +302,25 @@ export default function Proposals() {
             <Search size={13} /> Find Matches
           </Link>
         </div>
+
+        {/* Active Credit Banner */}
+        {hasActiveCredit && (
+          <div className="mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 p-4 rounded-3xl shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center flex-shrink-0 shadow-md">
+                <Wallet size={20} className="text-white" />
+              </div>
+              <div>
+                <p className="text-sm font-black text-emerald-800">Active Credit Available!</p>
+                <p className="text-xs text-emerald-700 mt-0.5">Aap ka proposal reject hua lekin payment approve ho chuki hai — isi credit se kisi aur ko proposal bhej saktey hain, dobara payment ki zaroorat nahi.</p>
+              </div>
+            </div>
+            <Link href="/search?useCredit=true"
+              className="flex-shrink-0 flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-5 py-2.5 rounded-2xl shadow-md hover:from-emerald-600 hover:to-teal-600 transition-all">
+              <Search size={13} /> Browse Profiles
+            </Link>
+          </div>
+        )}
 
         {/* Success message */}
         {successMsg && (

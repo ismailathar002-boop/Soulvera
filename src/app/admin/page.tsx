@@ -85,17 +85,18 @@ export default function AdminPanel() {
     finally { setChatLoading(false); }
   };
 
-  const handleApproveChat = async (proposalId: string) => {
+  const handlePaymentAction = async (proposalId: string, action: "approve" | "reject") => {
     const token = getToken();
     if (!token) return;
-    setChatApprovingId(proposalId);
+    setChatApprovingId(proposalId + action);
+    const endpoint = action === "approve" ? "approve-payment" : "reject-payment";
     try {
-      const res = await fetch(`${API}/proposals/${proposalId}/approve-chat`, {
+      const res = await fetch(`${API}/proposals/${proposalId}/${endpoint}`, {
         method: "PUT", headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      setChatMsg(data.message || (data.success ? "Chat approved!" : "Failed."));
-      setTimeout(() => setChatMsg(""), 3000);
+      setChatMsg(data.message || (data.success ? "Done!" : "Failed."));
+      setTimeout(() => setChatMsg(""), 4000);
       if (data.success) fetchPendingPayments();
     } catch { setChatMsg("Server error."); setTimeout(() => setChatMsg(""), 3000); }
     finally { setChatApprovingId(null); }
@@ -162,7 +163,7 @@ export default function AdminPanel() {
     { key: "approvals",  icon: Shield,        label: `Profile Verification (${adminUsers.length})` },
     { key: "proposals",  icon: Send,          label: "Proposals", badge: pendingProposals.length },
     { key: "stats",      icon: BarChart3,     label: "Platform Stats" },
-    { key: "chat",       icon: MessageCircle, label: "Chat Approvals", badge: pendingPayments.length },
+    { key: "chat",       icon: CreditCard,    label: "Payment Approvals", badge: pendingPayments.length },
   ];
 
   return (
@@ -478,12 +479,12 @@ export default function AdminPanel() {
               </div>
             )}
 
-            {/* Chat Approvals */}
+            {/* Payment Approvals */}
             {activeSubTab === "chat" && (
               <div className="space-y-5">
                 <div>
-                  <h3 className="heading-section text-lg text-stone-900 mb-1">Chat Payment Approvals</h3>
-                  <p className="text-xs text-stone-400">Review payment screenshots and unlock chats for approved users.</p>
+                  <h3 className="heading-section text-lg text-stone-900 mb-1">Payment Approvals</h3>
+                  <p className="text-xs text-stone-400">Payment screenshots review karein. Approve hone par user ka credit active hoga — agar proposal reject hua to credit dobara use hoga.</p>
                 </div>
 
                 {chatMsg && (
@@ -501,8 +502,8 @@ export default function AdminPanel() {
                     <div className="w-16 h-16 rounded-3xl bg-emerald-50 flex items-center justify-center mx-auto mb-4">
                       <CheckCircle size={28} className="text-emerald-400" />
                     </div>
-                    <p className="font-bold text-stone-600 mb-1">All caught up!</p>
-                    <p className="text-xs text-stone-400">No pending payment approvals.</p>
+                    <p className="font-bold text-stone-600 mb-1">Koi pending payment nahi!</p>
+                    <p className="text-xs text-stone-400">Tamam payments process ho chuki hain.</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -526,13 +527,23 @@ export default function AdminPanel() {
                             </div>
                           </div>
 
-                          <button onClick={() => handleApproveChat(payment.id)} disabled={chatApprovingId === payment.id}
-                            className="flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:from-emerald-600 hover:to-teal-600 transition-all disabled:opacity-60 flex-shrink-0">
-                            <CheckCircle size={13} />{chatApprovingId === payment.id ? "Approving..." : "Approve Chat"}
-                          </button>
+                          <div className="flex gap-2 flex-shrink-0">
+                            <button
+                              onClick={() => handlePaymentAction(payment.id, "approve")}
+                              disabled={!!chatApprovingId}
+                              className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-sm hover:from-emerald-600 hover:to-teal-600 transition-all disabled:opacity-60">
+                              <CheckCircle size={13} />{chatApprovingId === payment.id + "approve" ? "..." : "Approve"}
+                            </button>
+                            <button
+                              onClick={() => handlePaymentAction(payment.id, "reject")}
+                              disabled={!!chatApprovingId}
+                              className="flex items-center gap-1.5 border border-rose-200 text-rose-600 text-xs font-bold px-4 py-2 rounded-xl hover:bg-rose-50 transition-all disabled:opacity-60">
+                              <X size={13} />{chatApprovingId === payment.id + "reject" ? "..." : "Reject"}
+                            </button>
+                          </div>
                         </div>
 
-                        {/* Screenshot â€” show image directly */}
+                        {/* Screenshot - show image directly */}
                         {payment.payment_screenshot ? (
                           <div className="mt-4">
                             <p className="text-[10px] font-bold uppercase tracking-wider text-stone-400 mb-2">Payment Screenshot</p>

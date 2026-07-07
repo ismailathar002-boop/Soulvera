@@ -88,9 +88,10 @@ async function handle(method: string, path: string[], req: NextRequest): Promise
 
   // ── PROPOSALS ─────────────────────────────────────────────────────────────
   if (seg0 === "proposals") {
-    // GET /proposals/admin/payments
+    // GET /proposals/admin/payments — pending payment approvals
     if (seg1 === "admin" && seg2 === "payments" && method === "GET") {
-      return ok({ proposals: [] });
+      const pending = DUMMY_PROPOSALS.filter((p) => p.payment_status === "pending");
+      return ok({ proposals: pending });
     }
     // GET /proposals
     if (!seg1 && method === "GET") {
@@ -103,19 +104,40 @@ async function handle(method: string, path: string[], req: NextRequest): Promise
         ...p,
         sender: { id: p.sender.id, soulvera_id: p.sender.soulvera_id, name: p.sender.name, profile: p.sender.profile },
       }));
-      return ok({ sent, received });
+      // Check if user has an active credit (paid + approved + proposal rejected)
+      const hasActiveCredit = sent.some((p) => p.payment_status === "paid" && (p as any).payment_approved === true && p.status === "rejected");
+      return ok({ sent, received, hasActiveCredit });
     }
     // POST /proposals/:id (send proposal)
     if (seg1 && !seg2 && method === "POST") {
+      const body = await req.json().catch(() => ({}));
+      const useCredit = body.useCredit === true;
+      const uid = currentUser?.id || "user-006";
+      const hasCredit = DUMMY_PROPOSALS.some((p) => p.sender_id === uid && p.payment_status === "paid" && (p as any).payment_approved === true && p.status === "rejected");
+      if (useCredit && hasCredit) {
+        return ok({ message: "Proposal bheja gaya! Aap ka existing credit use hua — dobara payment ki zaroorat nahi.", credit_used: true, proposal: { id: "prop-new-" + Date.now(), status: "pending", admin_status: "pending", payment_status: "paid", payment_approved: true } });
+      }
       return ok({ message: "Proposal sent!", proposal: { id: "prop-new-" + Date.now(), status: "pending", admin_status: "pending" } });
     }
     // PUT /proposals/:id/respond
     if (seg2 === "respond" && method === "PUT") {
       return ok({ message: "Response recorded." });
     }
-    // PUT /proposals/:id/approve-chat
+    // PUT /proposals/:id/approve-chat (legacy)
     if (seg2 === "approve-chat" && method === "PUT") {
       return ok({ message: "Chat approved!" });
+    }
+    // PUT /proposals/:id/approve-payment — admin approves user's payment, credit becomes active
+    if (seg2 === "approve-payment" && method === "PUT") {
+      return ok({ message: "Payment approve ho gai! User ko credit mil gaya. Proposal accept hone par chat automatically enable hogi." });
+    }
+    // PUT /proposals/:id/reject-payment — admin rejects screenshot (invalid/fake)
+    if (seg2 === "reject-payment" && method === "PUT") {
+      return ok({ message: "Payment reject kar di gayi. User ko dubara screenshot upload karna hogi." });
+    }
+    // POST /proposals/:id/pay — user submits payment screenshot
+    if (seg2 === "pay" && method === "POST") {
+      return ok({ message: "Payment screenshot submit ho gai! Admin review karega." });
     }
   }
 
